@@ -1,5 +1,12 @@
 #+ summary: Query to get musicians born in the Netherlands with a MusicBrainz, Discogs ID or GTAA ID
 #+ endpoint: https://query.wikidata.org/sparql
+PREFIX wd:   <http://www.wikidata.org/entity/>
+PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX schema: <http://schema.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
 SELECT ?artist ?artistLabel ?birthPlaceLabel ?musicbrainz ?discogs
 WHERE {
   ?artist wdt:P31 wd:Q5;               # instance of human
