@@ -1,0 +1,21 @@
+#+ summary: Query to get musicians born in the Netherlands with a MusicBrainz, Discogs ID or GTAA ID
+#+ endpoint: https://query.wikidata.org/sparql
+SELECT ?artist ?artistLabel ?birthPlaceLabel ?musicbrainz ?discogs
+WHERE {
+  ?artist wdt:P31 wd:Q5;               # instance of human
+          wdt:P106 wd:Q639669;         # occupation: musician
+          wdt:P19 ?birthPlace.         # place of birth
+  ?birthPlace wdt:P17 wd:Q55.          # country of that place = Netherlands
+
+  OPTIONAL { ?artist wdt:P434 ?musicbrainz. }  # MusicBrainz artist ID
+  OPTIONAL { ?artist wdt:P1953 ?discogs. }     # Discogs artist ID
+  OPTIONAL { ?artist wdt:P1741 ?gtaa. }     # GTAA artist ID
+
+  FILTER(BOUND(?musicbrainz) || BOUND(?discogs) || BOUND(?gtaa))  # moet tenminste 1 van deze IDs hebben
+
+  SERVICE wikibase:label {
+    bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en".
+  }
+}
+ORDER BY ?artistLabel
+LIMIT 200
